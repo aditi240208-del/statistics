@@ -1,97 +1,59 @@
-# Statistics and Probability Experiments
 
-## Overview
-This Jupyter Notebook (`statistics.ipynb`) contains Python programs for exploring basic statistics, probability, random experiments, conditional probability, Bayes' theorem, and the binomial distribution.
+## Experiments 
 
-## Requirements
-- Python 3
-- Jupyter Notebook or JupyterLab
-- NumPy
-- Pandas
-- Matplotlib
-- SciPy
+### 1. Statistics Basics
+The marks array is used to calculate the mean, max, min, and standard deviation. The table of student marks is created using the pandas library, and the bar chart is created using Matplotlib.
 
-Install the required libraries if they are not already installed:
+**Observations:**
+-  If you increase a mark, this will normally increase the mean, and if you decrease a mark, this will normally decrease it.
+- The highest and lowest change when a new highest or lowest mark is put in.
+- Standard deviation depends on how spread out the marks are.
+- Changing table marks changes bar heights and changes the mean.
+  
+### 2. Coin-Toss Simulation (Experimental) 
+Python random module is used to generate random values and to choose random outcomes. In this experiment, it can be used to simulate coin tosses by randomly choosing between heads and tails.
 
-```bash
-pip install numpy pandas matplotlib scipy
-```
+The NumPy (numpy) library is for calculating math and working with arrays. It includes functions such as np.random.choice() for making random selections and np.mean() for calculating the average of numerical values.
 
-## How to Run
-1. Open `statistics.ipynb` in Jupyter Notebook or JupyterLab.
-2. Run the cells from top to bottom.
-3. Change the input values or parameters in a cell.
-4. Run that cell again to observe how the output changes.
-
-## Experiments Included
-
-### 1. Descriptive Statistics
-A marks array is used to calculate the mean, maximum, minimum, and standard deviation. Pandas is also used to create a table of student marks and Matplotlib displays them as a bar chart.
-
-**What to observe when values change:**
-- Increasing a mark usually increases the mean; decreasing a mark usually decreases it.
-- The maximum and minimum change when a new highest or lowest mark is entered.
-- Standard deviation changes according to how spread out the marks are.
-- Changing the marks in the table changes the bar heights and may change the mean.
-
-### 2. Coin-Toss Simulation and Experimental Probability
-The notebook simulates coin tosses and estimates the probability of getting heads.
-
-**What to observe when the number of tosses changes:**
-- With a small number of tosses, the estimated probability can vary a lot.
-- With more tosses, the estimate will generally tend to move closer to the theoretical probability of 0.5.
+**Observations:**
+- The estimated probability may vary a lot with a small number of tosses.
+- With more tosses, the estimate will move closer to the theoretical probability of 0.5.
 - The result is random, so it will not necessarily get closer with every increase in the number of tosses.
-- Re-running a simulation can produce a different result unless a random seed is fixed.
-
+  
 ### 3. Dice-Roll Probability
 Random dice rolls are used to estimate the probability of outcomes and events, such as rolling a six, an even number, or a number greater than three.
 
-**What to observe when the number of rolls changes:**
-- A small number of rolls can give an estimate far from the theoretical probability.
-- More rolls generally produce a more stable estimate.
-- For a fair die, the theoretical probability of rolling any one specified face is `1/6`.
-- Changing the event condition changes which rolls count as successes and therefore changes the estimated probability.
+**Observations:**
+- A small number of rolls gives an estimate far from the theoretical probability.
+- More rolls generally produce a probability nearer to the theoretical probability.
+- For a fair die, the theoretical probability of rolling any one specified face is 1/6.
+- Changing the number of dice rolls affects how closely the experimental probability approaches the theoretical probability.
+- A plot shows how the cumulative probability of getting Heads changes over 10,000 simulated coin tosses compared with the theoretical probability of 0.5.
+- The logarithmic horizontal axis helps display changes across both small and large numbers of tosses.
 
-### 4. Basic, Joint, and Conditional Probability
-Examples use student and language-preference counts, as well as events involving cricket and football. Other cells calculate probabilities for events defined on coin tosses and dice rolls.
+### 4. Conditional Probability
+Probability calculations are performed using student and language preference data, sports events involving cricket and football, and outcomes from coin tosses and dice rolls.
 
-**What to observe when probabilities or counts change:**
-- Increasing the number of outcomes in an event while keeping the total fixed increases that event's probability.
-- Conditional probability depends on the event being conditioned on.
-- For events A and B, the general formula is `P(A | B) = P(A ∩ B) / P(B)`, provided `P(B) > 0`.
-- The addition rule is `P(A ∪ B) = P(A) + P(B) - P(A ∩ B)`. The intersection must be subtracted to avoid counting shared outcomes twice.
+**Observations:**
+- An increase in the number of favorable events while keeping the number of events constant will increase the probability of the event.
+- Conditional probability is the probability of an event happening when another event has already taken place.
+- For events A and B, the general formula is P(A | B) = P(A ∩ B) / P(B), provided P(B) > 0.
+- The addition rule is P(A ∪ B) = P(A) + P(B) - P(A ∩ B).
 
-### 5. Law of Large Numbers
-A plot tracks the cumulative simulated probability of heads across 10,000 tosses and compares it with the theoretical value of 0.5.
+### 5. Bayes' Theorem
+Calculate the probability of having a disease when the test comes out positive and the probability of an email being spam, provided the email has the word "offer".
 
-**What to observe:**
-- The cumulative probability fluctuates more at the beginning.
-- As the number of tosses increases, the estimate generally settles nearer to 0.5.
-- The logarithmic horizontal axis makes it easier to view both early and later tosses.
+**Observations:**
+- The final probability depends on the initial probability and the available evidence.
+- A positive test does not automatically mean a person has the disease, as the initial probability and false-positive rate also affect the result.
+- For the email classification, changing the initial probability of spam or the conditional probabilities changes the probability that the email is spam.
 
-### 6. Bayes' Theorem
-Two examples estimate the probability of a disease given a positive test and the probability that an email is spam given that it contains the word “offer”.
+### 6. Binomial Distribution
+The plot in the notebook shows the probability mass function (PMF) for a binomial random variable with n = 20 trials and probability of success p = 0.5.
+**Observations:**
+- n determines the number of trials and the possible number of successes between 0 and n.
+- p determines the probability of success in each trial.
+- If p = 0.5, the distribution will be symmetric about n/2.
 
-**What to observe when values change:**
-- The posterior probability depends on the prior probability and the likelihoods.
-- A positive test does not automatically mean the person has the disease; the prior probability and false-positive rate also matter.
-- For the email example, changing the spam prior or either conditional likelihood changes the calculated probability that the email is spam.
-
-### 7. Binomial Distribution
-The notebook plots the probability mass function (PMF) for a binomial random variable using `n = 20` trials and success probability `p = 0.5`.
-
-**What to observe when parameters change:**
-- `n` controls the number of trials and the possible number of successes, from `0` to `n`.
-- `p` controls the chance of success on each trial.
-- When `p = 0.5`, the distribution is symmetric around `n/2`.
-- When `p` is below 0.5, probability tends to be concentrated at lower success counts; when `p` is above 0.5, it tends to be concentrated at higher success counts.
-- Increasing `n` adds more possible success counts and changes the shape of the distribution.
-
-## Important Notes
-- Simulated probabilities can vary between runs. Treat them as estimates rather than exact theoretical values.
-- In cells that use random simulations, results depend on the generated random sample. A fixed random seed makes a simulation reproducible.
-- Review the conditional-probability input cell before relying on its result: its current expression `(a*b)/b` simplifies to `a` when `b` is nonzero, and does not calculate conditional probability in general. Use the joint probability `P(A ∩ B)` divided by `P(B)` instead.
-- In the dice-frequency cell, the `print` statement is outside the loop, so it prints only the final face's count and probability. To display every face, indent the `print` statement inside the loop.
-
-## Conclusion
-These experiments demonstrate how Python can be used to calculate descriptive statistics, simulate random events, estimate probabilities, visualize distributions, and apply conditional probability and Bayes' theorem. Changing the input data, trial count, or probability parameters helps show how the results respond to different conditions.
+### Conclusion
+These experiments show how Python can be used in statistics to simulate random events, estimate probabilities, visualize distributions, and apply conditional probability and Bayes' theorem. Changing the input data, trial count, or probability parameters shows how the results respond to different conditions.
