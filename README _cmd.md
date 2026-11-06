@@ -4,7 +4,6 @@ An interactive educational web application for undergraduate AIML students. It t
 
 ## Features
 
-- **Single-file app** — everything runs from one `index.html`; no build step or install needed.
 - **Three interactive modules**, each with an industry problem, the math, editable inputs, instant results, and a shaded chart.
 - **Live updates** — every calculation and chart refreshes the moment you change an input.
 - **Input validation** with clear error messages (e.g. σ must be positive, lower limit < upper limit).
@@ -19,14 +18,6 @@ An interactive educational web application for undergraduate AIML students. It t
 | 3. Central Limit Theorem | Warehouse processing time | Sample mean, standard error σ/√n, convergence to normal |
 
 ## Getting started
-
-1. Save `index.html` anywhere on your machine.
-2. Open it in any modern browser (Chrome, Edge, Firefox, Safari).
-3. Use the tabs at the top to switch between the Home page and the three modules.
-
-> **Note:** The app loads two libraries from a CDN, so an internet connection is required on first load:
-> - [Chart.js](https://www.chartjs.org/) — renders the interactive charts
-> - [MathJax](https://www.mathjax.org/) — typesets the mathematical formulas
 
 ## Module 1 — Normal Distribution (Manufacturing Quality Control)
 
@@ -114,21 +105,3 @@ A warehouse processes orders whose individual times follow an arbitrary distribu
 ## How the math is implemented
 
 The Normal CDF uses the standard Abramowitz & Stegun approximation for numerical stability. All interval probabilities are computed from the CDF, and chart shading is built from the density values between the relevant bounds.
-
-## Project structure
-
-```
-├── index.html      # the entire application (HTML, CSS, and JavaScript)
-└── README.md       # this file
-```
-
-## Dependencies
-
-- **Chart.js 4.x** (CDN) — interactive charts
-- **MathJax 3** (CDN) — math typesetting
-
-No other libraries or build tools are required.
-
-## License
-
-Free to use for educational purposes.
