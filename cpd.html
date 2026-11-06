@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Continuous Probability Distributions — Industry Applications</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+  :root{
+    --bg:#f4f6fb; --card:#ffffff; --ink:#1e293b; --muted:#64748b;
+    --line:#e2e8f0; --accent:#2563eb; --accent2:#0ea5e9;
+    --good:#16a34a; --bad:#dc2626; --warn:#d97706;
+    --radius:14px; --shadow:0 4px 20px rgba(30,41,59,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  header{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:2.2rem 1.2rem;text-align:center}
+  header h1{margin:0 0 .3rem;font-size:1.7rem}
+  header p{margin:0;opacity:.9;font-size:.98rem}
+  nav{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;padding:.9rem;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+  nav button{border:1px solid var(--line);background:#fff;color:var(--ink);padding:.55rem 1rem;border-radius:999px;cursor:pointer;font-size:.9rem;transition:.15s}
+  nav button:hover{border-color:var(--accent);color:var(--accent)}
+  nav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  main{max-width:1000px;margin:1.4rem auto;padding:0 1rem}
+  .page{display:none;animation:fade .25s ease}
+  .page.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.4rem;margin-bottom:1.2rem}
+  .card h2{margin:0 0 .4rem;font-size:1.25rem}
+  .card h3{margin:1.2rem 0 .5rem;font-size:1.05rem;color:var(--accent)}
+  .tag{display:inline-block;background:#dbeafe;color:#1e40af;font-size:.75rem;font-weight:600;padding:.2rem .6rem;border-radius:999px;margin-bottom:.6rem}
+  .problem{background:#eff6ff;border-left:4px solid var(--accent);padding:.8rem 1rem;border-radius:8px;font-size:.95rem}
+  .formula{background:#f8fafc;border:1px dashed var(--line);border-radius:10px;padding:.8rem 1rem;font-size:1.05rem;text-align:center;margin:.6rem 0;overflow-x:auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem;margin:1rem 0}
+  .field label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:.25rem;font-weight:600}
+  .field input{width:100%;padding:.55rem .7rem;border:1px solid var(--line);border-radius:8px;font-size:1rem}
+  .field input:focus{outline:2px solid var(--accent2);border-color:transparent}
+  .error{color:var(--bad);font-size:.85rem;font-weight:600;margin-top:.5rem;display:none}
+  .error.show{display:block}
+  .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem}
+  .result{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem}
+  .result .label{font-size:.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+  .result .value{font-size:1.25rem;font-weight:700;margin-top:.15rem}
+  .result .unit{font-size:.8rem;color:var(--muted)}
+  .chart-wrap{position:relative;height:360px;margin-top:1rem}
+  .note{font-size:.87rem;color:var(--muted);background:#f1f5f9;border-radius:8px;padding:.7rem .9rem;margin-top:1rem}
+  .good{color:var(--good)} .bad{color:var(--bad)} .warn{color:var(--warn)}
+  .legend{display:flex;flex-wrap:wrap;gap:1rem;font-size:.82rem;margin-top:.6rem}
+  .legend span{display:flex;align-items:center;gap:.4rem}
+  .swatch{width:14px;height:14px;border-radius:3px;display:inline-block}
+  .interpret{background:#f0fdf4;border-left:4px solid var(--good);padding:.8rem 1rem;border-radius:8px;font-size:.95rem;margin-top:1rem}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:1.5rem}
+  @media(max-width:600px){header h1{font-size:1.3rem}.chart-wrap{height:300px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Continuous Probability Distributions</h1>
+  <p>Industry Applications — Interactive Learning for AIML Students</p>
+</header>
+
+<nav id="nav">
+  <button class="active" data-page="home">Home</button>
+  <button data-page="normal">Normal Distribution</button>
+  <button data-page="exponential">Exponential Distribution</button>
+  <button data-page="clt">Central Limit Theorem</button>
+</nav>
+
+<main>
+
+<!-- ================= HOME ================= -->
+<section class="page active" id="home">
+  <div class="card">
+    <h2>Welcome 👋</h2>
+    <p>This app helps you understand three fundamental continuous probability distributions and how they apply to real industry problems. Each module includes an industry problem, the math, interactive inputs, live calculations, and a dynamic visualization.</p>
+    <div class="grid">
+      <div class="card" style="margin:0">
+        <span class="tag">Module 1</span>
+        <h3>Normal Distribution</h3>
+        <p style="font-size:.9rem">Manufacturing quality control — predicting what fraction of manufactured parts fall within specification limits.</p>
+      </div>
+      <div class="card" style="margin:0">
+        <span class="tag">Module 2</span>
+        <h3>Exponential Distribution</h3>
+        <p style="font-size:.9rem">Cloud request inter-arrival times — modeling the time between incoming server requests.</p>
+      </div>
+      <div class="card" style="margin:0">
+        <span class="tag">Module 3</span>
+        <h3>Central Limit Theorem</h3>
+        <p style="font-size:.9rem">Warehouse processing time — how averages of many tasks become normally distributed.</p>
+      </div>
+    </div>
+    <p>Click a module above to begin. All calculations update instantly as you change inputs.</p>
+  </div>
+</section>
+
+<!-- ================= NORMAL ================= -->
+<section class="page" id="normal">
+  <div class="card">
+    <span class="tag">Module 1 · Manufacturing Quality Control</span>
+    <h2>Normal Distribution</h2>
+    <div class="problem">
+      <strong>Industry problem:</strong> A factory machines steel shafts with a target diameter of 10 mm. If a shaft is too thin or too thick, it is defective. We need to predict what percentage of production will be defective, so we can set process controls.
+    </div>
+
+    <h3>Input parameters</h3>
+    <div class="grid">
+      <div class="field"><label>Mean diameter μ (mm)</label><input id="n_mu" type="number" step="0.01" value="10"></div>
+      <div class="field"><label>Std deviation σ (mm)</label><input id="n_sigma" type="number" step="0.001" value="0.05"></div>
+      <div class="field"><label>Lower spec limit (mm)</label><input id="n_lower" type="number" step="0.01" value="9.90"></div>
+      <div class="field"><label>Upper spec limit (mm)</label><input id="n_upper" type="number" step="0.01" value="10.10"></div>
+      <div class="field"><label>Selected diameter x (mm)</label><input id="n_x" type="number" step="0.01" value="10.00"></div>
+    </div>
+    <div class="error" id="n_error"></div>
+
+    <h3>Mathematical formulas</h3>
+    <div class="formula">\[ f(x) = \frac{1}{\sigma\sqrt{2\pi}}\, e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]</div>
+    <div class="formula">\[ P(a \le X \le b) = \Phi\!\left(\frac{b-\mu}{\sigma}\right) - \Phi\!\left(\frac{a-\mu}{\sigma}\right) \]</div>
+
+    <h3>Results</h3>
+    <div class="results" id="n_results"></div>
+
+    <h3>Visualization</h3>
+    <div class="chart-wrap"><canvas id="n_chart"></canvas></div>
+    <div class="legend">
+      <span><span class="swatch" style="background:#86efac"></span> Acceptable region</span>
+      <span><span class="swatch" style="background:#fca5a5"></span> Below lower limit (defective)</span>
+      <span><span class="swatch" style="background:#fcd34d"></span> Above upper limit (defective)</span>
+      <span><span class="swatch" style="background:#2563eb"></span> Density curve</span>
+    </div>
+
+    <div class="interpret" id="n_interpret"></div>
+    <div class="note"><strong>Validation:</strong> σ must be positive, and the lower limit must be less than the upper limit. The selected diameter x can be any value.</div>
+  </div>
+</section>
+
+<!-- ================= EXPONENTIAL ================= -->
+<section class="page" id="exponential">
+  <div class="card">
+    <span class="tag">Module 2 · Cloud Request Inter-arrival Time</span>
+    <h2>Exponential Distribution</h2>
+    <div class="problem">
+      <strong>Industry problem:</strong> A cloud server receives requests at an average rate of 12 per minute. We want to model the time between consecutive requests so we can size the server and plan for burst traffic.
+    </div>
+
+    <h3>Input parameters</h3>
+    <div class="grid">
+      <div class="field"><label>Arrival rate λ (requests/min)</label><input id="e_lambda" type="number" step="0.1" value="12"></div>
+      <div class="field"><label>Time threshold t (seconds)</label><input id="e_t" type="number" step="0.1" value="5"></div>
+      <div class="field"><label>t₂ for conditional (seconds)</label><input id="e_t2" type="number" step="0.1" value="10"></div>
+      <div class="field"><label>t₁ for conditional (seconds)</label><input id="e_t1" type="number" step="0.1" value="5"></div>
+    </div>
+    <div class="error" id="e_error"></div>
+
+    <h3>Mathematical formulas</h3>
+    <div class="formula">\[ f(t) = \lambda e^{-\lambda t}, \quad t \ge 0 \]</div>
+    <div class="formula">\[ P(T \le t) = 1 - e^{-\lambda t}, \qquad P(T > t) = e^{-\lambda t} \]</div>
+    <div class="formula">\[ P(T > t_2 \mid T > t_1) = e^{-\lambda (t_2 - t_1)} \]</div>
+
+    <h3>Results</h3>
+    <div class="results" id="e_results"></div>
+
+    <h3>Visualization</h3>
+    <div class="chart-wrap"><canvas id="e_chart"></canvas></div>
+    <div class="legend">
+      <span><span class="swatch" style="background:#93c5fd"></span> P(T ≤ t) shaded</span>
+      <span><span class="swatch" style="background:#2563eb"></span> Density curve</span>
+    </div>
+
+    <div class="interpret" id="e_interpret"></div>
+    <div class="note">
+      <strong>Memoryless property:</strong> The exponential distribution "forgets" the past. The probability that you wait at least another \(t_2 - t_1\) seconds, given you've already waited \(t_1\) seconds, is the same as the probability of waiting that long from the start. The server does not "remember" how long it has been idle.
+      <br><br>
+      <strong>Model assumption:</strong> This assumes a constant-rate Poisson arrival process — requests arrive independently at a steady average rate. Inter-arrival time is <em>not</em> the same as server response time; response time is how long the server takes to answer a request, which is a different quantity.
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLT ================= -->
+<section class="page" id="clt">
+  <div class="card">
+    <span class="tag">Module 3 · Warehouse Processing Time</span>
+    <h2>Central Limit Theorem</h2>
+    <div class="problem">
+      <strong>Industry problem:</strong> A warehouse processes orders. The time to process a single order follows some arbitrary distribution (not necessarily normal). When we average many orders, the Central Limit Theorem guarantees the sample mean becomes approximately normal — letting us predict total processing time reliably.
+    </div>
+
+    <h3>Input parameters</h3>
+    <div class="grid">
+      <div class="field"><label>Population mean μ (min)</label><input id="c_mu" type="number" step="0.1" value="5"></div>
+      <div class="field"><label>Population std σ (min)</label><input id="c_sigma" type="number" step="0.1" value="2"></div>
+      <div class="field"><label>Sample size n</label><input id="c_n" type="number" step="1" value="30"></div>
+    </div>
+    <div class="error" id="c_error"></div>
+
+    <h3>Mathematical formulas</h3>
+    <div class="formula">\[ \text{Mean of } \bar{X} = \mu, \qquad \text{Std error} = \frac{\sigma}{\sqrt{n}} \]</div>
+    <div class="formula">\[ \bar{X} \sim N\!\left(\mu,\; \frac{\sigma^2}{n}\right) \quad \text{for large } n \]</div>
+
+    <h3>Results</h3>
+    <div class="results" id="c_results"></div>
+
+    <h3>Visualization — sampling distribution of the mean</h3>
+    <div class="chart-wrap"><canvas id="c_chart"></canvas></div>
+    <div class="legend">
+      <span><span class="swatch" style="background:#2563eb"></span> Sampling distribution of \(\bar{X}\)</span>
+    </div>
+
+    <div class="interpret" id="c_interpret"></div>
+    <div class="note">
+      <strong>Key insight:</strong> As \(n\) grows, the distribution of the sample mean becomes more concentrated (narrower) around the population mean \(\mu\) — even if the underlying population is not normal. With \(n \ge 30\), the normal approximation is typically excellent.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>Continuous Probability Distributions · Industry Applications · Built for undergraduate AIML students</footer>
+
+<script>
+/* ============ Utility: Normal CDF (Abramowitz & Stegun approximation) ============ */
+function normCDF(z){
+  if(z > 6) return 1; if(z < -6) return 0;
+  const t = 1/(1 + 0.2316419*Math.abs(z));
+  const d = 0.3989423*Math.exp(-z*z/2);
+  const p = d*t*(0.3193815 + t*(-0.3565638 + t*(1.781478 + t*(-1.821256 + t*1.330274))));
+  return z > 0 ? 1 - p : p;
+}
+function normPDF(z){ return 0.3989423*Math.exp(-z*z/2); }
+
+/* ============ Charts ============ */
+const charts = {};
+function makeChart(id, labels, datasets, opts={}){
+  const ctx = document.getElementById(id).getContext('2d');
+  if(charts[id]) charts[id].destroy();
+  charts[id] = new Chart(ctx, { type:'line', data:{labels, datasets}, options:{
+    responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index', intersect:false},
+    scales:{
+      x:{ title:{display:true, text:opts.xLabel||''}},
+      y:{ title:{display:true, text:opts.yLabel||''}}
+    },
+    plugins:{legend:{display:false}}
+  }});
+}
+
+/* ============ Navigation ============ */
+document.getElementById('nav').addEventListener('click', e=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(btn.dataset.page).classList.add('active');
+});
+
+/* ============ Module 1: Normal ============ */
+function calcNormal(){
+  const mu=+n_mu.value, sig=+n_sigma.value, lo=+n_lower.value, hi=+n_upper.value, x=+n_x.value;
+  const err=document.getElementById('n_error');
+  err.classList.remove('show'); err.textContent='';
+  if(!(sig>0)){ err.textContent='σ must be positive.'; err.classList.add('show'); return; }
+  if(!(lo<hi)){ err.textContent='Lower limit must be less than upper limit.'; err.classList.add('show'); return; }
+
+  const zL=(lo-mu)/sig, zU=(hi-mu)/sig, zX=(x-mu)/sig;
+  const pIn=normCDF(zU)-normCDF(zL);
+  const pBelow=normCDF(zL);
+  const pAbove=1-normCDF(zU);
+  const pDef=pBelow+pAbove;
+  const pdfX=normPDF(zX)/sig;
+
+  document.getElementById('n_results').innerHTML = `
+    <div class="result"><div class="label">Density at x</div><div class="value">${pdfX.toFixed(4)}</div><div class="unit">per mm</div></div>
+    <div class="result"><div class="label">P(L ≤ X ≤ U)</div><div class="value good">${(pIn*100).toFixed(2)}%</div><div class="unit">acceptable</div></div>
+    <div class="result"><div class="label">P(X &lt; L)</div><div class="value bad">${(pBelow*100).toFixed(4)}%</div><div class="unit">below lower limit</div></div>
+    <div class="result"><div class="label">P(X &gt; U)</div><div class="value warn">${(pAbove*100).toFixed(4)}%</div><div class="unit">above upper limit</div></div>
+    <div class="result"><div class="label">Expected defective</div><div class="value bad">${(pDef*100).toFixed(4)}%</div><div class="unit">of production</div></div>`;
+
+  // Build chart
+  const min=mu-4*sig, max=mu+4*sig, N=200;
+  const labels=[], dens=[], acc=[], below=[], above=[];
+  for(let i=0;i<=N;i++){
+    const v=min+(max-min)*i/N;
+    labels.push(v.toFixed(2));
+    const y=normPDF((v-mu)/sig)/sig;
+    dens.push(y);
+    acc.push(v>=lo&&v<=hi?y:null);
+    below.push(v<lo?y:null);
+    above.push(v>hi?y:null);
+  }
+  makeChart('n_chart', labels, [
+    {data:below, borderColor:'transparent', backgroundColor:'#fca5a5', fill:true, pointRadius:0, spanGaps:false},
+    {data:above, borderColor:'transparent', backgroundColor:'#fcd34d', fill:true, pointRadius:0, spanGaps:false},
+    {data:acc, borderColor:'transparent', backgroundColor:'#86efac', fill:true, pointRadius:0, spanGaps:false},
+    {data:dens, borderColor:'#2563eb', borderWidth:2.5, pointRadius:0, fill:false}
+  ], {xLabel:'Diameter (mm)', yLabel:'Probability density'});
+
+  const defStr = pDef<0.001 ? 'essentially zero' : (pDef*100).toFixed(4)+'%';
+  document.getElementById('n_interpret').innerHTML =
+    `<strong>Interpretation:</strong> With μ=${mu} mm and σ=${sig} mm, about <strong>${(pIn*100).toFixed(2)}%</strong> of shafts fall within the ${lo}–${hi} mm limits and are acceptable. Expected defective production is <strong>${defStr}</strong>. ` +
+    (pDef>0.01 ? `This is high — consider tightening the process (reducing σ) or widening tolerances.` : `This is a well-controlled process.`) +
+    ` The density at diameter ${x} mm is ${pdfX.toFixed(4)} per mm.`;
+}
+
+['n_mu','n_sigma','n_lower','n_upper','n_x'].forEach(id=>document.getElementById(id).addEventListener('input',calcNormal));
+
+/* ============ Module 2: Exponential ============ */
+function calcExp(){
+  const lam=+e_lambda.value, t=+e_t.value, t2=+e_t2.value, t1=+e_t1.value;
+  const err=document.getElementById('e_error');
+  err.classList.remove('show'); err.textContent='';
+  if(!(lam>0)){ err.textContent='Arrival rate λ must be positive.'; err.classList.add('show'); return; }
+  if(!(t>=0)){ err.textContent='Time threshold t must be non-negative.'; err.classList.add('show'); return; }
+  if(!(t2>=t1)){ err.textContent='Conditional times must satisfy t₂ ≥ t₁.'; err.classList.add('show'); return; }
+
+  // Convert: λ in per minute -> per second
+  const lamSec = lam/60;
+  const meanMin = 1/lam, meanSec = 60/lam;
+  const varMin = 1/(lam*lam), varSec = 3600/(lam*lam);
+  const pLeq = 1 - Math.exp(-lamSec*t);
+  const pGt = Math.exp(-lamSec*t);
+  const pCond = Math.exp(-lamSec*(t2-t1));
+
+  document.getElementById('e_results').innerHTML = `
+    <div class="result"><div class="label">Mean inter-arrival</div><div class="value">${meanSec.toFixed(2)}</div><div class="unit">sec (${meanMin.toFixed(3)} min)</div></div>
+    <div class="result"><div class="label">Variance</div><div class="value">${varSec.toFixed(2)}</div><div class="unit">sec² (${varMin.toFixed(3)} min²)</div></div>
+    <div class="result"><div class="label">P(T ≤ ${t}s)</div><div class="value good">${(pLeq*100).toFixed(2)}%</div><div class="unit">request arrives by then</div></div>
+    <div class="result"><div class="label">P(T &gt; ${t}s)</div><div class="value">${(pGt*100).toFixed(2)}%</div><div class="unit">wait exceeds threshold</div></div>
+    <div class="result"><div class="label">P(T&gt;${t2}s | T&gt;${t1}s)</div><div class="value">${(pCond*100).toFixed(2)}%</div><div class="unit">memoryless</div></div>`;
+
+  // Chart
+  const maxT = Math.max(5/lamSec, t*1.5, t2*1.2, 5);
+  const N=200;
+  const labels=[], dens=[], shade=[];
+  for(let i=0;i<=N;i++){
+    const v=maxT*i/N;
+    labels.push(v.toFixed(2));
+    const y=lamSec*Math.exp(-lamSec*v);
+    dens.push(y);
+    shade.push(v<=t?y:null);
+  }
+  makeChart('e_chart', labels, [
+    {data:shade, borderColor:'transparent', backgroundColor:'#93c5fd', fill:true, pointRadius:0, spanGaps:false},
+    {data:dens, borderColor:'#2563eb', borderWidth:2.5, pointRadius:0, fill:false}
+  ], {xLabel:'Time t (seconds)', yLabel:'Density f(t)'});
+
+  document.getElementById('e_interpret').innerHTML =
+    `<strong>Interpretation:</strong> With λ=${lam} requests/min, the mean time between requests is <strong>${meanSec.toFixed(2)} seconds</strong>. The probability that the next request arrives within ${t} seconds is <strong>${(pLeq*100).toFixed(2)}%</strong>. Because of the memoryless property, if no request has arrived in ${t1}s, the chance of waiting another ${(t2-t1)}s is still <strong>${(pCond*100).toFixed(2)}%</strong> — the server's idle time does not change the future arrival probability.`;
+}
+
+['e_lambda','e_t','e_t2','e_t1'].forEach(id=>document.getElementById(id).addEventListener('input',calcExp));
+
+/* ============ Module 3: CLT ============ */
+function calcCLT(){
+  const mu=+c_mu.value, sig=+c_sigma.value, n=Math.round(+c_n.value);
+  const err=document.getElementById('c_error');
+  err.classList.remove('show'); err.textContent='';
+  if(!(sig>0)){ err.textContent='Population std σ must be positive.'; err.classList.add('show'); return; }
+  if(!(n>=1)){ err.textContent='Sample size n must be at least 1.'; err.classList.add('show'); return; }
+
+  const se = sig/Math.sqrt(n);
+  const pWithin68 = normCDF((mu+se-mu)/se)-normCDF((mu-se-mu)/se); // ~68%
+
+  document.getElementById('c_results').innerHTML = `
+    <div class="result"><div class="label">Mean of x̄</div><div class="value">${mu.toFixed(2)}</div><div class="unit">min</div></div>
+    <div class="result"><div class="label">Std error σ/√n</div><div class="value">${se.toFixed(3)}</div><div class="unit">min</div></div>
+    <div class="result"><div class="label">Variance of x̄</div><div class="value">${(se*se).toFixed(4)}</div><div class="unit">min²</div></div>
+    <div class="result"><div class="label">P(μ−σ/√n ≤ x̄ ≤ μ+σ/√n)</div><div class="value good">${(pWithin68*100).toFixed(1)}%</div><div class="unit">within ±1 std error</div></div>`;
+
+  // Chart
+  const range = Math.max(se*4, 0.5);
+  const min=mu-range, max=mu+range, N=200;
+  const labels=[], dens=[];
+  for(let i=0;i<=N;i++){
+    const v=min+(max-min)*i/N;
+    labels.push(v.toFixed(2));
+    dens.push(normPDF((v-mu)/se)/se);
+  }
+  makeChart('c_chart', labels, [
+    {data:dens, borderColor:'#2563eb', borderWidth:2.5, pointRadius:0, fill:true, backgroundColor:'rgba(37,99,235,.12)'}
+  ], {xLabel:'Sample mean x̄ (minutes)', yLabel:'Density'});
+
+  document.getElementById('c_interpret').innerHTML =
+    `<strong>Interpretation:</strong> Averaging ${n} orders gives a sample mean that is approximately normal with mean <strong>${mu.toFixed(2)} min</strong> and standard error <strong>${se.toFixed(3)} min</strong>. The spread of the mean shrinks as n grows (σ/√n), so larger samples give more predictable average processing times. ${n>=30 ? 'With n≥30, the normal approximation is excellent even if individual order times are skewed.' : 'For small n the approximation is rough unless the population is already normal.'}`;
+}
+
+['c_mu','c_sigma','c_n'].forEach(id=>document.getElementById(id).addEventListener('input',calcCLT));
+
+/* ============ Initial render ============ */
+calcNormal();
+calcExp();
+calcCLT();
+</script>
+</body>
+</html>
